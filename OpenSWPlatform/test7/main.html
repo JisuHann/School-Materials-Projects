@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            table{
+                background-color: honeydew;
+            }
+            input form{
+                background-color: indigo;
+            }
+        </style>
+    </head>
+    <body>
+        <table border = "4">
+            <tr><th rowspan= "4"> this is four</th><td>this is one</td></tr>
+            <tr><td>this is two</td></tr>
+            <tr><td>this is three</td></tr>
+            <tr><td>this is four</td></tr>
+        </table>
+        <form method = "GET" action = "read_php.php">
+            <input type = "text" name = "php1" value = "132">
+            <input type = "password" name = "php2" value = "432">
+            <select name = "sel">
+                <option name = "a">this is a</option>
+                <option name = "b">this is b</option>
+                <option name = "c">this is c</option>
+                <option name = "d">this is d</option>
+            </select>
+            <input type = "submit" name = "sub" value = "submit">
+        </form>
+
+        <form name = "form_js" onsubmit = "oaaa()" onreset = "obbb()">
+            <input type = "text" name = "js1" value = "132">
+            <input type = "password" name = "js2" value = "432">
+            <input type = "submit" id = "js3" value = "432">
+            <input type = "reset" id = "js4" value = "432">
+        </form>
+        <input type = "button" id = "but1" onclick = "occc()">
+        <input type = "button" id = "but2">
+        <input type = "button" id = "but3">
+        <script type= "text/javascript">
+            var but2 = document.getElementById("but2");
+            var but3 = document.getElementById("but3");
+            but2.onclick = function(){
+                alert("this is button 2 onclick");
+            }
+            but3.addEventListener("click", function(){
+                alert("this is button 3 alert");
+            })
+            function occc(){
+                confirm("zzeball");
+            }
+            function oaaa(){
+                document.form_js.submit();
+                alert("this is submit");
+            }
+            function obbb(){
+                document.form_js.reset;
+                var l1 = parseInt(prompt("input 1", 0));
+                var l2 = parseInt(prompt("input 2:", 0));
+                var tot = l1+l2;
+                alert(tot+"is result");
+            }
+        </script>
+    </body>
+    
+</html>

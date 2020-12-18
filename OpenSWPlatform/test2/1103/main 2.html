@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <link rel = "stylesheet" href = "stylesheet.css">
+        <style>
+            #id1{
+                background-color:chocolate;
+            }
+            #id2{
+                background-color: coral;
+            }
+            .aa{
+                background-color: beige;
+            }
+        </style>
+    </head>
+    <body>
+        <table border = "3" class = "aa">
+            <tr><td rowspan = "2">hi hi</td></tr>
+            <tr><td>rowspan1</td></tr>
+            <tr><td>rowspan2</td></tr>
+        </table>
+        <table border = "3" class = "aa">
+            <tr><td colspan = "2">hi hi</td></tr>
+            <tr><td>rowspan1</td><th>hi hi</th></tr>
+            <tr><td>rowspan2</td><th>haaa</th></tr>
+        </table>
+        <a href = "www.youtube.com">My life is a beauty.</a>
+        <div id = "id1">
+            <p>this is PHP version. with Get and Post version</p>
+            <form method = "GET" action = "form_php.php">
+                <input type = "text" name = "text1" value = "">
+                <input type = "password" name = "pwd1" value = "1234">
+                <input type = "button" name = "submit" value = "submit">
+            </form>
+        </div>
+        <div id = "id2">
+            <p>this is JavaScript version of Form</p>
+            <form method = "GET" name = "a" onSubmit="onsddub()" onReset= "onreddset()">
+                <input type = "text" name = "text2" value = "">
+                <input type = "password" name = "pwd2" value = "1234">
+                <input type = "submit" name = "Submit" value = "submit">
+                <input type = "submit" name = "Reset" value = "Reset">
+            </form>
+        </div>
+        <p>this part is now javascript event handler version.</p>
+        <input type = "button" value = "button on click" id = "but1" onclick = "alddt()">
+        <input type = "button" value = "using javascript" id = "but2">
+        <input type = "button" value = "Event handler" id = "but3">
+        <script = "text/javascript">
+            var but2 = document.getElementById("but2");
+            but2.onclick = function(){
+                alert("hi this is button onclick using javascript");
+            }
+            var but3 = document.getElementById("but3");
+            but3.addEventListener("click", function(){
+                alert("finally you made it! this is final event handler");
+            })
+            function alddt(){
+                alert("hi this is button onclick.");
+            }
+            function onsddub(){
+                document.a.submit();
+                alert("this is submit");
+            }
+            function onreddset(){
+                document.b.reset();
+                prompt("this is reset");
+            }
+        </script>
+    </body>
+</html>

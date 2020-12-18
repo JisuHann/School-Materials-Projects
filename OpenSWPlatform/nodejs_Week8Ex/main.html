@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>website demo</title>
+        <meta charset="utf-8">
+        <style type = "text/css">
+            #wrapper{
+                width: 960px;
+                margin: 15px auto;
+                text-align: left;
+            }
+            #main_header{
+                background-color: #FFFBB9;
+                padding:20px;
+                border: 1px solid #999999;
+                font: bold 10px verdana, sans-serif;
+            }
+            #main_menu{
+                background-color: #cccccc;
+                padding: 5px 15px;
+            }
+            #main_menu li{
+                display: inline-block;
+                list-style: none;
+                padding: 5px;
+                font: bold 14px verdana, sans-serif;
+            }
+            #main_section{
+                float: left;
+                width: 660px;
+                margin: 20px;
+            }
+            #main_aside{
+                float: left;
+                width: 220px;
+                margin: 20px 0px;
+                padding: 10px;
+                background-color: #cccccc;
+            }
+            #main_footer{
+                clear:both;
+                text-align: center;
+                padding: 20px;
+                border-top: 2px solid #999999;
+            }
+            #main_aside blockquote{
+                font: 12px verdana, sans-serif;
+            }
+            #main_section article{
+                background: #fffbcc;
+                border: 1px solid #999999;
+                padding: 20px;
+                margin-bottom: 15px;
+                font: 12px verdana, sans-serif;
+            }
+            #main_section article p{
+                font: 12px verdana, sans-serif;
+            }
+            
+            #main_section article footer{
+                text-align: right;
+            }
+            
+            #time {
+                color:#999999;
+            }
+            #figcaption{
+                font: italic 14px verdana, sans-serif;
+            }
+            #figures{
+                vertical-align: right;
+                margin: 0px 0px;
+            }
+        </style>
+    </head>
+    <body>
+    <div id = "wrapper">
+        <header id = "main_header">
+            <h1>This is the main title of the website</h1>
+        </header>
+
+        <nav id = "main_menu">
+            <ul>
+                <li>home</li>
+                <li><a href = "photos.html">photos</a></li>
+                <li><a href = "videos.html">videos</a></li>
+                <li><a href = "contacts.html">contacts</a></li>
+            </ul>
+        </nav>
+        
+        <section id = "main_section">
+            <article>
+                <header>
+                    <hgroup>
+                        <h2>Title of post One</h2>
+                        <h1>subtitle of post One</h1>
+                    </hgroup>
+                </header>
+                <p><time id = "time">posted 12-10-2014</time><br>This is the text of my first post</p>
+                <figure id = "figures">
+                    <img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png" width="400px" height="300px">
+                    <figcaption id = "figcaption">This is the image of the first post.</figcaption>
+                </figure>
+                <footer>comments(0)</footer>
+            </article>
+
+            <article>
+                <header>
+                    <h2>Title of post Two</h2>
+                    <h1>subtitle of post Two</h1>
+                </header>
+                <p><time id = "time">posted 12-10-2014</time><br>This is the text of my second post</p>
+                <footer>comments(0)</footer>
+            </article>
+        </section>
+
+        <aside id = "main_aside">
+            <blockquote>Quotation from article number one</blockquote> 
+            <blockquote>Quotation from article number two</blockquote> 
+        </aside>
+
+        <footer id = "main_footer">
+            <p> Copyright 2014</p>
+        </footer>
+        
+    </div>
+    </body>
+</html>

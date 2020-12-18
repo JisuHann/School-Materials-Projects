@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset ="utf-8">
+        <style>
+            form{
+                background-color:burlywood;
+            }
+        </style>
+    </head>
+    <body>
+        <form name = "form_php" method = "GET" action = "form_php.php">
+            <input type = "text" name = "php1" value = "text php">
+            <input type = "password" name = "php2" value = "password php">
+            <select name = "php_sel">
+                <option name = "a">this is a</option>
+                <option name = "b">this is b</option>
+                <option name = "c">this is c</option>
+                <option name = "d">this is d</option>
+            </select>
+            <input type = "submit" name = "php_sub" value = "submit">
+        </form>
+
+        <form name = "form_js" onsubmit = "oaaa()" onreset = "obbb()">
+            <input type = "text" id = "js1" value = "text js">
+            <input type = "password" id = "js2" value = "password js">
+            <input type = "submit" name = "js_sub" value = "submit">
+            <input type = "reset" name = "js_res" value = "reset">
+        </form>
+
+        <input type = "button" name = "but1" id = "but1" value = "but1" onclick = "occc()">
+        <input type = "button" name = "but2" id = "but2" value = "but2">
+        <input type = "button" name = "but3" id = "but3" value = "but3">
+
+    </body>
+    <script = "text/javascript">
+        var js1 = document.getElementById("js1");
+        var js2 = document.getElementById("js2");
+        function oaaa(){
+            document.form_js.submit();
+            alert("this is submit button" + js1.value + js2.value);
+        }
+        function obbb(){
+            document.form_js.reset();
+            alert("this is reset button" + js1.value + js2.value);
+        }
+        function occc(){
+            alert("this is onclick button");
+        }
+
+        var but2 = document.getElementById("but2");
+        but2.onclick = function(){
+            alert("this is javascript onclick");
+        }
+
+        var but3 = document.getElementById("but3");
+        but3.addEventListener("click", function(){
+            alert("this is javascript event listener");
+        });
+    </script>
+</html>

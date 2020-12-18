@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <link rel = "stylesheet" href = "stylesheet.css">
+        <style>
+            div{
+                background-color:chartreuse;
+            }
+            .table1{
+                background-color: beige;
+            }
+            .table2{
+                background-color: blue;
+            }
+            #form_js{
+                background-color:darkcyan;
+            }
+        </style>
+    </head>
+    <body>
+        <div class= "table1">
+            <table border = "4">
+                <tr><th rowspan = "2">rowspan 2</th><td>this is row 1</td></tr>
+                <tr><th>this is row 2</th></tr>
+                <tr><td>this is ordinary second row</td></tr>
+            </table>
+        </div>
+        <div class= "table2">
+            <table border = "4">
+                <tr><th colspan = "2">colspan 2</th></tr>
+                <tr><th> col1</th><th>col 2</th></tr>
+            </table>
+        </div>
+
+        <div id= "form_php">
+            <form method = "GET" action = "form_php.php">
+                this is text.<input type= "text" name = "php1" value = "php1">
+                this is password. <input type = "password" name = "php2" value = "pwd">
+                <input type = "submit" value = "submit">
+            </form>
+        </div>
+        <div id= "form_js">
+            <form name = "form_js" onSubmit = "oaaa()" onReset = "obbb()">
+                this is js text. <input type= "text" name = "php1" value = "php1">
+                this is js password. <input type = "password" name = "php2" value = "pwd">
+                <input type = "submit" value = "submit">
+                <input type = "reset" value = "reset">
+            </form>
+        </div>
+
+        <div class= "event_handler">
+            <input type = "button" id = "but1" onclick = "onccc()">
+            <input type = "button" id = "but2">
+            <input type = "button" id = "but3">
+        </div>
+        <script = "text/javascript">
+            var but2 = document.getElementById("but2");
+            var but3 = document.getElementById("but3");
+            but2.onclick = function(){
+                alert("this is javascript onclick");
+            };
+            but3.addEventListener("click", function(){
+                alert("this is javascript event listener");
+            });
+            function onccc(){
+                prompt("okay onclick works");
+            }
+            function oaaa(){
+                document.form_js.submit();
+                alert("this is submit");
+            }
+            function obbb(){
+                document.form_js.reset();
+                confirm("this is reset");
+            }
+        </script>
+    </body>
+</html>

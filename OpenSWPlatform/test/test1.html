@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset= "utf-8">
+		<link rel = "stylesheet" href = "stylesheet.css">
+		<style>
+			#this{
+				font: Arial;
+				background-color: aliceblue;
+				align:center;
+			}
+			.a{
+				background-color: aliceblue;
+			}
+			.d{
+				background-color: blue;
+			}
+			.node{
+				background-color: floralwhite;
+			}
+		</style>
+	</head>
+	<body>
+		<div class = "a">
+			<table border="2">
+				<tr><th colspan = "2">hi i'm jisu</th><th>good</th></tr>
+				<tr><td colspace = "10">middle</td><th colspace = "10">chiuchejim</th></tr>
+			</table>
+		</div>
+		<p id = "this">this is paragraph</p>
+		<a href = "www.youtube.com">boundary</a>
+		<table border="2" class = "d">
+			<tr><th colspan = "2">hi i'm jisu</th><th>good</th></tr>
+			<tr><td>middle</td><th>chiuchejim</th></tr>
+		</table>
+		<iframe src = "www.youtube.com" border = "2"></iframe>
+		<a href = "./file.php">PHP file open</a>
+		<a href = "./file2.js">Nodejs File open</a>
+		<form method = "GET" action = "./run.php">
+			this is php ver.
+			<input type = "text" name = "name1" value = "this">
+			<input type = "password" name = "password1" value = "okay">
+			<input type = "submit" value = "submit">
+		</form>
+		<form method = "GET" name = "b" onSubmit = "onclickk()" onreset="onregisster()" action = "./run.html">
+			this is javascript ver.
+			<input type = "text" name = "name2" value = "this">
+			<input type = "password" name = "password2" value = "okay">
+			<input type = "submit" value = "submit">
+			<input type = "reset" value = "reset">
+		</form>
+		<p>this is Event Handler practice.</p>
+		<input type="button" id = "but1" value = "by Id" onclick = "byId()">
+		<input type="button" id = "but2" value = "onclick">
+		<input type="button" id = "but3" value = "EventHandler" >
+		<div class = "node">
+			<p>this is node module practice time</p>
+
+		</div>
+		<script = "text/javascript">
+			var but2 = document.getElementById("but2");
+			but2.onclick=function(){
+				alert("this is by onclick");
+			}
+			var but3 = document.getElementById("but3");
+			but3.addEventListener("click", function(){
+				alert("this is by onclick event listener");
+			})
+			function byId(){
+				alert("this is by ID");
+			}
+			function onclickk(){
+				document.b.submit();
+				alert("button is pressed");
+			}
+			function onregisster(){
+				document.b.reset();
+				confirm("okay");
+			}
+		</script>
+	</body>
+</html>

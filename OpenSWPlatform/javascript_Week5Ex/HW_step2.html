@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body onload = "init()">
+    <form name = "test" onSubmit = "register()" onReset = "reWrite()">
+        아이디: <input type = "text" id = "input_id" name = "id" size = "20" value = ""><p>
+        패스워드: <input type = "password" id = "input_pwd" name = "password" size = "10" value = ""><p>
+        <input type = "submit" name = "btn1" value = "가입하기">
+        <input type = "reset" name = "btn2" value = "다시 작성">
+    </form>
+    <script = "text/javascript">
+    var nameis = document.getElementById("input_id");
+    nameis.addEventListener('change', function(event){
+            alert("id가 변경되었습니다.");
+    });
+     function init(){
+        document.test.id.focus();
+     }
+     function register()
+     {  
+        document.test.submit();
+        if(document.getElementById("input_id").value.length==0){
+          alert("ID를 입력하세요.");
+        }
+        else if(document.getElementById("input_pwd").value.length==0){
+          alert("패스워드를 입력하세요.");
+        }
+        else if(document.getElementById("input_pwd").value.length<8 || document.getElementById("input_pwd").value.length>12 ){
+          alert("패스워드를 8자 이상 12자 이하로 입력해주세요.");
+        }
+        else{
+          alert("회원 가입을 축하합니다.");
+        }
+      }
+     function reWrite()
+     {
+        document.test.reset();
+        alert("다시 입력하세요.");
+      }
+    </script>
+  </body>
+</html>

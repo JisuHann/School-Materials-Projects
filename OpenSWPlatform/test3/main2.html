@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <style>
+            .tb1{
+                background-color:chartreuse;
+            }
+            #form_php{
+                background-color: yellow;
+            }
+        </style>
+    </head>
+    <body>
+        
+
+        <div class = "tb1">
+            <table border = "3">
+                <tr><td colspan = "3">this is 3</td></tr>
+                <tr><td>1</td><th>1</th><td>1</td></tr>
+            </table>
+        </div>
+
+        <div id = "form_php">
+            <form name = "form_php" method = "GET" action = "read.php">
+                <input type = "text" name = "php1" value = "text">
+                <input type = "password" name = "php2" value = "password">
+                <input type = "submit" name = "php3" value = "button">
+                <select name = "sel">
+                    <option name="a">this is a</option>
+                    <option name= "b">this is b</option>
+                    <option name= "c">this is c</option>
+                    <option name= "d">this is d</option>
+                </select>
+            </form>
+        </div>
+
+        <div class = "form_javascript">
+            <form name = "form_js" onsubmit="occc()" onreset="orrr()">
+                <input type = "text" id = "js_1" name= "js_1" value = "this is js1">
+                <input type = "password" id = "js_2" name="js_2" value="this is js2">
+                <input type = "submit" name= "js_3" value = "submit">
+                <input type = "reset" name = "js_4" value = "reset">
+            </form>
+        </div>
+
+        <input type = "button" id = "eh_1" value = "HTML tag" onclick="but1()">
+        <input type = "button" id = "eh_2" value = "js">
+        <input type = "button" id = "eh_3" value = "js with event handler">
+    </body>
+    <script = "text/javascript">
+        function occc(){
+            document.form_js.submit();
+            var js_1 = document.getElementById("js_1");
+            var js_2 = document.getElementById("js_2");
+            alert(js_1.value +js_2.value+"on submit");
+        }
+        function orrr(){
+            document.form_js.reset();
+            var js_1 = document.getElementById("js_1");
+            var js_2 = document.getElementById("js_2");
+            alert(js_1.value +js_2.value+"on reset");
+        }
+        function but1(){
+            alert("this is button with html tag onclick");
+        }
+        var eh2 = document.getElementById("eh_2");
+        eh2.onclick = function(){
+            alert("this is eh_2 on onclick");
+        };
+        var eh3 = document.getElementById("eh_3");
+        eh3.addEventListener("click", function(){
+            alert("this is eh_3 on event listener");
+        });
+    </script>
+</html>

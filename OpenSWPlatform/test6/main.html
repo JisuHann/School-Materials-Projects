@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <style>
+
+        </style>
+    </head>
+    <body>
+        <form name = "form_php" method = "GET" action = "form_phpp.php">
+            How many a?<input type = "text" name = "a" value = "10">
+            How many b?<input type = "password" name = "b" value = "10000">
+            <input type = "submit" name = "sub" value = "submit">
+            <select name = "sel">
+                <option name = "sel_a">this is a</option>
+                <option name = "sel_b">this is b</option>
+                <option name = "sel_c">this is c</option>
+                <option name = "sel_d">this is d</option>
+                <option name = "sel_e">this is e</option>
+            </select>
+        </form>
+
+        <form name = "lol" onsubmit = "oaaa()" onreset = "obbb()">
+            <input type = "text" id = "js1" value = "text">
+            <input type = "password" id = "js2" value = "password">
+            <input type = "submit" name = "js3" value = "submit">
+            <input type = "reset" name= "js4" value = "reset">
+        </form>
+
+        <input type = "button" onclick = "occc()" value = "html tag">
+        <input type = "button" value = "js tag" id = "js_but1">
+        <input type = "button" value = "event handler" id = "js_but2">
+    </body>
+    <script = "text/javascript">
+        var js1 = document.getElementById("js1");
+        var js2 = document.getElementById("js2");
+        function oaaa(){
+            document.lol.submit();
+            alert(js1.value + js2.value+"hi this is jisu");
+        }
+        function obbb(){
+            document.lol.reset();
+            var l1 = parseInt(prompt("input 1", 0));
+            var l2 = parseInt(prompt("input 2", 0));
+            var l = l1+l2;
+            alert(l+"bye");
+        }
+        function occc(){
+            alert("this is html tag");
+        }
+        var js_but1 = document.getElementById("js_but1");
+        var js_but2 = document.getElementById("js_but2");
+        js_but1.onclick=function(){
+            alert("zzeball");
+        }
+        js_but2.addEventListener("click", function(){
+            alert("jisu cheer up!!");
+        });
+    </script>
+</html>
