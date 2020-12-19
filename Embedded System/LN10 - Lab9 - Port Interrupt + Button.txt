@@ -1,0 +1,63 @@
+#include "msp.h"
+
+#define S2BUT (( P1->IN & (1<<4)) == 0x00)
+#define S1BUT (( P1->IN & (1<<1)) == 0x00)
+
+#define BS_INIT 1
+#define BS_DOWN 2
+#define BS_UP 3
+
+void SysTick_Handler(void)
+{
+    P1->OUT ^= BIT0;
+}
+
+void main(void){
+    int s1but_bs = BS_INIT;
+    int s2but_bs = BS_INIT;
+    int pos = 1;
+
+    P1->DIR &= ~(1<<4|1<<1);
+    P1->REN = 1<<4|1<<1;
+    P1->OUT |= 1<<4|1<<1|1<<0;
+    P1->DIR |= 1<<0;
+    P2->DIR |= 1<<2|1<<1|1<<0;
+    P2->OUT = 1<<pos;
+
+    SystemCoreClockUpdate();
+    SysTick->CTRL |= SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
+    SysTick->LOAD = SystemCoreClock/20-1;
+    SysTick->VAL = 0x01;
+    SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;
+
+    while(1){
+
+        if(S1BUT){
+            s1but_bs = BS_DOWN;
+        }
+        else{
+            if(s1but_bs==BS_DOWN){
+                if (pos>0)
+                    pos--;
+                else
+                    pos =2;
+                P2->OUT = 1<<pos;
+                s1but_bs = BS_UP;
+            }
+        }
+
+        if(S2BUT){
+            s2but_bs = BS_DOWN;
+        }
+        else{
+            if(s2but_bs==BS_DOWN){
+                if (pos<2)
+                    pos++;
+                else
+                    pos = 0;
+                P2->OUT = 1<<pos;
+                s2but_bs = BS_UP;
+            }
+        }
+    }
+}

@@ -1,0 +1,29 @@
+#include "msp.h"
+
+void main(void)
+{
+    P1->DIR = ~(uint8_t)(BIT1|BIT4);
+        P1->OUT = (BIT1|BIT4);
+    P1->REN = (BIT1|BIT4);
+    P1->IES = (BIT1|BIT4);
+    P1->IFG = 0;
+    P1->IE = (BIT1|BIT4);
+    NVIC->ISER[1] = 1<<((PORT1_IRQn)&31);
+//P1- BIT1, BIT4  작동되도록(누르면 INTERRUPT 발생되는 것으로) 설계
+
+    P2->DIR = BIT0;
+    while(1){ }
+}
+
+void PORT1_IRQHandler(void){
+
+    if(P1->IFG & BIT1){ //P1-BIT1이 깃발 들으면
+        P1->OUT ^= BIT0; //P2-BIT0의 반대로 나타나게 작동
+        P1->IFG &= ~BIT1; //다시 P1-BIT1 깃발들 수 있게 준비
+    }
+    if(P1->IFG & BIT4){ //P1-BIT4이 깃발 들으면
+        P2->OUT ^= BIT0; //P2-BIT0의 반대로 나타나게 작동
+        P1->IFG &= ~BIT4; //다시 P1-BIT1 깃발들 수 있게 준비
+    }
+}
+

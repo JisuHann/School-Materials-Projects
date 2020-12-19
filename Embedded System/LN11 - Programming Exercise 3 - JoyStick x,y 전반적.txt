@@ -1,0 +1,136 @@
+#include <ti/devices/msp432p4xx/inc/msp.h>
+#include <ti/devices/msp432p4xx/driverlib/driverlib.h>
+#include <ti/grlib/grlib.h>
+#include "LcdDriver/Crystalfontz128x128_ST7735.h"
+#include <stdio.h>
+#include "LcdDriver/msp432p4111_classic.h"
+
+/*
+ * Main function
+ */
+void main(void)
+{
+    /* Graphic library context */
+    Graphics_Context g_sContext;
+
+    /* ADC results buffer */
+    uint16_t resultsBuffer[2];
+
+    /* string buffer for sprintf() */
+    char string[10];
+
+    /* Joystick, S1, S2 buttons in boostxl-edumkii flag */
+    int buttonPressed,bs1Pressed,bs2Pressed;
+
+    /* Initializes display */
+    Crystalfontz128x128_Init();
+
+    /* Set default screen orientation */
+    Crystalfontz128x128_SetOrientation(LCD_ORIENTATION_UP);
+
+    /* Initializes graphics context */
+    Graphics_initContext(&g_sContext, &g_sCrystalfontz128x128, &g_sCrystalfontz128x128_funcs);
+    Graphics_setForegroundColor(&g_sContext, GRAPHICS_COLOR_RED);
+    Graphics_setBackgroundColor(&g_sContext, GRAPHICS_COLOR_WHITE);
+    GrContextFontSet(&g_sContext, &g_sFontFixed6x8);
+    Graphics_clearDisplay(&g_sContext);
+    Graphics_drawStringCentered(&g_sContext,
+                                    (int8_t *)"Joystick:",
+                                    AUTO_STRING_LENGTH,
+                                    64,
+                                    30,
+                                    OPAQUE_TEXT);
+
+    /* Configures Pin 6.0 and 4.4 as ADC input */
+    MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6, GPIO_PIN0, GPIO_TERTIARY_MODULE_FUNCTION);
+    MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P4, GPIO_PIN4, GPIO_TERTIARY_MODULE_FUNCTION);
+
+    /* Initializing ADC (ADCOSC/64/8) */
+    MAP_ADC14_enableModule();
+    MAP_ADC14_initModule(ADC_CLOCKSOURCE_ADCOSC, ADC_PREDIVIDER_64, ADC_DIVIDER_8, 0);
+
+    /* Configuring ADC Memory (ADC_MEM0 - ADC_MEM1 (A15, A9)  with repeat)
+         * with internal 2.5v reference */
+    MAP_ADC14_configureMultiSequenceMode(ADC_MEM0, ADC_MEM1, true);
+    MAP_ADC14_configureConversionMemory(ADC_MEM0,
+            ADC_VREFPOS_AVCC_VREFNEG_VSS,
+            ADC_INPUT_A15, ADC_NONDIFFERENTIAL_INPUTS);
+
+    MAP_ADC14_configureConversionMemory(ADC_MEM1,
+            ADC_VREFPOS_AVCC_VREFNEG_VSS,
+            ADC_INPUT_A9, ADC_NONDIFFERENTIAL_INPUTS);
+
+    /* Setting up the sample timer to automatically step through the sequence
+     * convert.
+     */
+    MAP_ADC14_enableSampleTimer(ADC_AUTOMATIC_ITERATION);
+
+    /* Triggering the start of the sample */
+    MAP_ADC14_enableConversion();
+    MAP_ADC14_toggleConversionTrigger();
+
+    /* Configuring S1 & S2 buttons in boostxl-edumkii */
+    P3->DIR &= ~BIT5;
+    P5->DIR &= ~BIT1;
+    P3->REN |= BIT5;
+    P5->REN |= BIT1;
+    P3->OUT |= BIT5;
+    P5->OUT |= BIT1;
+
+    while(1)
+    {
+        /* Store ADC14 conversion results */
+        resultsBuffer[0] = ADC14_getResult(ADC_MEM0);
+        resultsBuffer[1] = ADC14_getResult(ADC_MEM1);
+
+        sprintf(string, "X: %5d", resultsBuffer[0]);
+        Graphics_drawStringCentered(&g_sContext,
+                                        (int8_t *)string,
+                                        8,
+                                        64,
+                                        50,
+                                        OPAQUE_TEXT);
+
+        sprintf(string, "Y: %5d", resultsBuffer[1]);
+        Graphics_drawStringCentered(&g_sContext,
+                                        (int8_t *)string,
+                                        8,
+                                        64,
+                                        70,
+                                        OPAQUE_TEXT);
+
+        /* Determine if JoyStick button is pressed */
+        buttonPressed = 0;
+        if (!(P4IN & GPIO_PIN1))
+            buttonPressed = 1;
+        else
+            buttonPressed = 0;
+
+        sprintf(string, "Button: %d", buttonPressed);
+        Graphics_drawStringCentered(&g_sContext,
+                                        (int8_t *)string,
+                                        AUTO_STRING_LENGTH,
+                                        64,
+                                        90,
+                                        OPAQUE_TEXT);
+
+        /* Determine if S1 or S2 button in boostxl-edumkii is pressed */
+        if (!(P5->IN & BIT1))
+            bs1Pressed = 1;
+        else
+            bs1Pressed = 0;
+
+        if (!(P3->IN & BIT5))
+            bs2Pressed = 1;
+        else
+            bs2Pressed = 0;
+
+        sprintf(string, "BS1: %d BS2: %d",bs1Pressed,bs2Pressed);
+        Graphics_drawStringCentered(&g_sContext,
+                                        (int8_t *)string,
+                                        AUTO_STRING_LENGTH,
+                                        64,
+                                        110,
+                                        OPAQUE_TEXT);
+    }
+}

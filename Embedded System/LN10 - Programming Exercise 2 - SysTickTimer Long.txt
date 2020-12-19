@@ -1,0 +1,26 @@
+void SysTick_Handler(void){
+    static int flag = 1;
+    if (flag%6==0){
+	P1->OUT ^= BIT0;
+	flag=0;
+    }
+    flag++;
+}
+
+int main(void){
+    SystemCoreClockUpdate();
+    // Configure GPIO
+    P1->DIR |= BIT0;
+    P1->OUT &= ~BIT0;
+
+    // Enable SysTick Module
+    SysTick->CTRL |= SysTick_CTRL_CLKSOURCE_Msk |SysTick_CTRL_ENABLE_Msk;
+    SysTick->LOAD = SystemCoreClock/20 - 1;
+    SysTick->VAL = 0x01;
+// Clear the SysTick current value register by writing a dummy value
+    SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;// Enable SysTick interrupt
+
+    while (1)
+    {
+    }
+}

@@ -1,0 +1,59 @@
+/* Driver configuration */
+#include <ti/devices/msp432p4xx/inc/msp.h>
+#include <ti/devices/msp432p4xx/driverlib/driverlib.h>
+#include <ti/drivers/Board.h>
+
+/* RTOS header files */
+#include <FreeRTOS.h>
+#include <task.h>
+#include <semphr.h>
+
+/* function prototypes */
+void Task1( void *pvParameters );
+TaskHandle_t task1Handle, task2Handle;
+
+void main(void)
+{
+    /* Configuring S1 & S2 buttons / Red LED & RGB LED in mainboard */
+    P1->DIR = BIT0;
+    P1->DIR &= ~(BIT1|BIT4);
+    P2->DIR |= 1<<2 | 1<< 1 | 1<<0;
+    P1->REN |= (BIT1|BIT4);
+    P1->OUT |= (BIT1|BIT4);
+    P2->OUT = 0x00;
+
+    xTaskCreate( Task1,                   /* The function that implements the task. */
+                 "Task 1",                /* The text name assigned to the task - for debug only as it is not used by the kernel. */
+                 configMINIMAL_STACK_SIZE,/* The size of the stack to allocate to the task. */
+                 ( void * ) 0,            /* The parameter passed to the task - just to check the functionality. */
+                 5,                      /* The priority assigned to the task. */
+                 &task1Handle);                  /* The task handle is not required, so NULL is passed. */
+     xTaskCreate( Task2,                   /* The function that implements the task. */
+                 "Task 2",                /* The text name assigned to the task - for debug only as it is not used by the kernel. */
+                 configMINIMAL_STACK_SIZE,/* The size of the stack to allocate to the task. */
+                 ( void * ) 0,            /* The parameter passed to the task - just to check the functionality. */
+                 4,                      /* The priority assigned to the task. */
+                 &task2Handle);                  /* The task handle is not required, so NULL is passed. */
+    /* Start the tasks and timer running. */
+    vTaskStartScheduler();
+
+    while (1)
+    {
+    }
+}
+
+void Task1( void *pvParameters )
+{
+    while (1)
+    {}
+}
+
+void vApplicationTickHook( void )
+{
+    static int flag = 1;
+    if ( flag % 100 == 0){
+	P1->OUT ^= BIT0;
+	flag=0;
+    }
+    flag++;
+}

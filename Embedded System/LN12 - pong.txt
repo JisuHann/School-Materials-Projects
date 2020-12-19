@@ -1,0 +1,340 @@
+#include <ti/devices/msp432p4xx/inc/msp.h>
+#include <ti/devices/msp432p4xx/driverlib/driverlib.h>
+#include <ti/grlib/grlib.h>
+#include "LcdDriver/Crystalfontz128x128_ST7735.h"
+#include "LcdDriver/msp432p4111_classic.h"
+
+/* Graphic library context */
+
+Graphics_Context g_sContext;
+extern int pongmain();
+extern const Graphics_Font g_sFontFixed4x5;
+/*
+ * Main function
+ */
+void main(void)
+{
+    /* Setting our MCLK to 48MHz for faster programming */
+    MAP_PCM_setCoreVoltageLevel(PCM_VCORE1);
+    FlashCtl_A_setWaitState(FLASH_A_BANK0, 6);
+    FlashCtl_A_setWaitState(FLASH_A_BANK1, 6);
+    MAP_CS_setDCOCenteredFrequency(CS_DCO_FREQUENCY_48);
+
+    /* Initializes display */
+    Crystalfontz128x128_Init();
+
+    /* Set default screen orientation */
+    Crystalfontz128x128_SetOrientation(LCD_ORIENTATION_UP);
+
+    /* Initializes graphics context */
+    Graphics_initContext(&g_sContext, &g_sCrystalfontz128x128, &g_sCrystalfontz128x128_funcs);
+    Graphics_setForegroundColor(&g_sContext, GRAPHICS_COLOR_RED);
+    Graphics_setBackgroundColor(&g_sContext, GRAPHICS_COLOR_WHITE);
+    GrContextFontSet(&g_sContext, &g_sFontFixed4x5);
+    Graphics_clearDisplay(&g_sContext);
+
+
+    /* Configuring S1 & S2 buttons in mainboard */
+    P1->DIR &= ~(BIT1|BIT4);
+    P1->REN |= (BIT1|BIT4);
+    P1->OUT |= (BIT1|BIT4);
+
+    /* Configuring S1 & S2 buttons in boostxl-edumkii */
+    P3->DIR &= ~BIT5;
+    P5->DIR &= ~BIT1;
+    P3->REN |= BIT5;
+    P5->REN |= BIT1;
+    P3->OUT |= BIT5;
+    P5->OUT |= BIT1;
+
+    pongmain();
+    while (1)
+    {
+    }
+}
+
+
+
+#include <ti/devices/msp432p4xx/inc/msp.h>
+#include <ti/devices/msp432p4xx/driverlib/driverlib.h>
+#include <ti/grlib/grlib.h>
+#include "LcdDriver/Crystalfontz128x128_ST7735.h"
+#include "LcdDriver/msp432p4111_classic.h"
+#include <stdio.h>
+
+#define DELAY 100000
+#define ScreenX             32
+#define ScreenY             25
+
+extern Graphics_Context g_sContext;
+
+typedef struct paddle {
+	/* paddle variables */
+	int x;
+	int y;    /* y is the 'top' of the paddle */
+	int prev_y;
+	int len;
+	int score;
+} paddle_t;
+
+typedef struct ball {
+	/* ball variables */
+	int x;
+	int y;
+	int prev_x;
+	int prev_y;
+	int next_x;
+	int next_y;
+	int x_vel;
+	int y_vel;
+} ball_t;
+
+typedef struct dimensions {
+	int x;
+	int y;
+} dimensions_t;
+
+void draw_ball(ball_t *input);
+void draw_paddle(paddle_t *paddle);
+void draw_score(paddle_t *inpt_paddle, dimensions_t *wall);
+void paddle_collisions(ball_t *inpt_ball, paddle_t *inpt_paddle);
+void paddle_pos(paddle_t *pddl, dimensions_t *wall, char dir);
+int wall_collisions(ball_t *usr_ball, dimensions_t *walls);
+char cgetc();
+void clrsr();
+void mvprintw(int y, int x, char *fmt);
+
+
+int pongmain(int argc, char **argv)
+{
+
+	dimensions_t walls = { 0 };
+	walls.y = ScreenY;
+	walls.x = ScreenX;
+
+	/* set the paddle variables */
+	paddle_t usr_paddle = { 0 };
+
+	usr_paddle.x = 5;
+	usr_paddle.y = 11;
+	usr_paddle.prev_y = 11;
+	usr_paddle.len = walls.y / 4;
+	usr_paddle.score = 0;
+
+	/* set the ball */
+	ball_t usr_ball = { 0 };
+
+	usr_ball.x = walls.x / 2;
+	usr_ball.y = walls.y / 2;
+	usr_ball.prev_x = 0;
+	usr_ball.prev_y = 0;
+	usr_ball.next_x = 0;
+	usr_ball.next_y = 0;
+	usr_ball.x_vel = 1;
+	usr_ball.y_vel = 1;
+
+	/* we actually have to store the user's keypress somewhere... */
+	int keypress = 0;
+	int run = 1;
+	int dly = 0;
+
+
+	while (run) {
+	    //clrscr();
+		draw_ball(&usr_ball);
+		draw_paddle(&usr_paddle);
+		draw_score(&usr_paddle, &walls);
+		for(dly = 0; dly < DELAY; dly++);
+
+		/* set next positions */
+		usr_ball.prev_x = usr_ball.x;
+		usr_ball.prev_y = usr_ball.y;
+		usr_ball.next_x = usr_ball.x + usr_ball.x_vel;
+		usr_ball.next_y = usr_ball.y + usr_ball.y_vel;
+
+		/* check for collisions */
+		paddle_collisions(&usr_ball, &usr_paddle);
+		if (wall_collisions(&usr_ball, &walls)) {
+			run = 0;
+		}
+
+		/* we fell out, get the key press */
+		keypress = cgetc();
+
+		switch (keypress) {
+		case 'j':
+		case 'k':
+			paddle_pos(&usr_paddle, &walls, keypress);
+			break;
+
+		case 'p': /* pause functionality, because why not */
+			mvprintw(1, 0, "PAUSE - press any key to resume");
+			while (cgetc() == 0) {
+	            //for(dly = 0; dly < DELAY*7; dly++);
+			}
+			clrscr();
+			break;
+
+		case 'q':
+			run = 0;
+			break;
+
+		}
+	}
+
+	// print final score
+    char buffer[20];
+    sprintf(buffer, "GAME OVER\nFinal Score: %d\n",usr_paddle.score);
+	mvprintw(0,0,buffer);
+
+	return 0;
+}
+
+void mvprintw(int y, int x, char *msg){
+        Graphics_drawString(&g_sContext,(int8_t *)msg, 32, x*4, y*5,  OPAQUE_TEXT);
+}
+
+
+/*
+ * function : paddle_pos
+ * purpose  : have a function that will return a proper 'y' value for the paddle
+ * input    : paddle_t *inpt_paddle, dimensions_t *wall, char dir
+ * output   : void
+ */
+
+void paddle_pos(paddle_t *pddl, dimensions_t *wall, char dir)
+{
+	if (dir == 'j') { /* moving down */
+		if (pddl->y + pddl->len + 1 <= wall->y){
+		    pddl->prev_y = pddl->y;
+			pddl->y++;
+		}
+	} else {          /* moving up (must be 'k') */
+		if (pddl->y - 1 >= 0){
+		    pddl->prev_y = pddl->y + pddl->len-1;
+			pddl->y--;
+		}
+	}
+
+}
+
+/*
+ * function : wall_collisions
+ * purpose  : to check for collisions on the terminal walls
+ * input    : ball_t *, dimensions_t *
+ * output   : nothing (stored within the structs)
+ */
+int wall_collisions(ball_t *usr_ball, dimensions_t *walls)
+{
+	/* check if we're supposed to leave quick */
+	if (usr_ball->next_x < 0) {
+		return 1;
+	}
+
+	/* check for X */
+	if (usr_ball->next_x >= walls->x) {
+		usr_ball->x_vel *= -1;
+	} else {
+		usr_ball->x += usr_ball->x_vel;
+	}
+
+	/* check for Y */
+	if (usr_ball->next_y >= walls->y || usr_ball->next_y < 0) {
+		usr_ball->y_vel *= -1;
+	} else {
+		usr_ball->y += usr_ball->y_vel;
+	}
+
+	return 0;
+}
+
+/* -------------------------------------------------------------------------- */
+
+void paddle_collisions(ball_t *inpt_ball, paddle_t *inpt_paddle)
+{
+	/* 
+	* simply check if next_% (because we set the next_x && next_y first) 
+	* is within the bounds of the paddle's CURRENT position
+	*/
+
+	if (inpt_ball->next_x == inpt_paddle->x) {
+		if (inpt_paddle->y <= inpt_ball->y &&
+			inpt_ball->y <= inpt_paddle->y + inpt_paddle->len) {
+
+			inpt_paddle->score++;
+			inpt_ball->x_vel *= -1;
+		}
+	}
+}
+
+/* -------------------------------------------------------------------------- */
+
+/*
+ * functions : draw_ball && draw_paddle
+ * purpose   : condense the drawing functions to functions
+ * input     : ball_t * && paddle_t *
+ * output    : void
+ */
+void draw_ball(ball_t *input)
+{
+    mvprintw(input->prev_y, input->prev_x, " ");
+	mvprintw(input->y, input->x, "O");
+
+}
+
+void draw_paddle(paddle_t *paddle)
+{
+	int i;
+
+	mvprintw(paddle->prev_y, paddle->x, " ");
+
+	for (i = 0; i < paddle->len; i++)
+		mvprintw(paddle->y+i , paddle->x, "|");
+}
+
+void draw_score(paddle_t *inpt_paddle, dimensions_t *wall)
+{
+    char buffer[20];
+    sprintf(buffer, "Score :%d",inpt_paddle->score);
+	mvprintw(0, wall->x / 2 - 7, buffer);
+}
+
+/* -------------------------------------------------------------------------- */
+/*-------------------------------------------------------*/
+void clrscr()
+{
+    //clrscr();
+    Graphics_clearDisplay(&g_sContext);
+}
+/*-----------------------------------------------------------------------------*/
+char cgetc(void)
+{
+    static int s1state=0,s2state=0,bs1state=0,bs2state=0; // not pressed
+
+    if (s1state==0 && !(P1->IN & BIT1)) {
+        s1state=1;     // S1 in mainboard pressed
+    } else if (s1state==1 && (P1->IN & BIT1)) {
+        s1state=0;     // S1 in mainboard not pressed
+        return 'p';
+    }
+    if (s2state==0 && !(P1->IN & BIT4)) {
+        s2state=1;     // S2 in mainboard pressed
+    } else if (s2state==1 && (P1->IN & BIT4)) {
+        s2state=0;     // S2 in mainboard not pressed
+        return 'q';
+    }
+    if (bs1state==0 && !(P3->IN & BIT5)) {
+        bs1state=1;     // S1 in boostxl-edumkii pressed
+    } else if (bs1state==1 && (P3->IN & BIT5)) {
+        bs1state=0;     // S1 in boostxl-edumkii not pressed
+        return 'j';
+    }
+    if (bs2state==0 && !(P5->IN & BIT1)) {
+        bs2state=1;     // S2 in boostxl-edumkii pressed
+    } else if (bs2state==1 && (P5->IN & BIT1)) {
+        bs2state=0;     // S2 boostxl-edumkii not pressed
+        return 'k';
+    }
+
+    return 0;
+}
