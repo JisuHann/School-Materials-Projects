@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href = './style.css'>
+</head>
+<body>
+
+<div>
+    <!--INSERT-->
+    <div id="id42" class="modal">
+    
+      <form class="modal-content animate" action="/page4_form.php" method="post">
+        <input type="hidden" name="form_name" value="insert"> 
+        <div class="container">
+          <label for="uname"><b>District</b></label>
+          <input type="text" placeholder="Enter District" class = "uname" name="which_gu" required>
+            <br>
+          <label for="uname"><b>Name</b></label>
+          <input type="text" placeholder="Enter Name" class = "uname" name="which_name" required>
+
+          <label for="uname"><b>Group</b></label>
+          <input type="text" placeholder="Enter Group" class = "uname" name="which_grp" required>
+
+          <label for="uname"><b>Who</b></label>
+          <input type="text" placeholder="Enter who" class = "uname" name="which_who" required>
+
+          <label for="uname"><b>Insta</b></label>
+          <input type="text" placeholder="Enter Insta" class = "uname" name="which_insta" required>
+
+          <label for="uname"><b>Value</b></label>
+          <input type="text" placeholder="Enter value" class = "uname" name="which_value" required>
+
+          <button type="submit" class = "button button1">Insert</button>
+        </form>
+        </div>
+    </div>
+
+    <!--DELETE-->
+    <div id="id43" class="modal">
+      
+      <form class="modal-content animate" action="/page4_form.php" method="post">
+        <div class="container">
+          <input type="hidden" name="form_name" value="delete"> 
+          <label for="uname"><b>Name</b></label>
+          <input type="text" placeholder="Enter Name" class = "uname" name="delete_name" required>
+
+          <button type="submit" class = "button button1">Delete</button>
+        </form>
+        </div>
+    </div>
+
+    <!--UPDATE-->
+    <div id="id44" class="modal">
+      
+      <form class="modal-content animate" action="/page4_form.php" method="post">
+        <input type="hidden" name="form_name" value="update"> 
+        <div class="container">
+          <label for="uname"><b>Name </b></label>
+          <input type="text" placeholder="Enter Name" class = "uname" name="update_name" required>
+
+          <label for="psw"><b>What attribute?</b></label>
+          <input type="text" placeholder="What attribute?" class = "uname" name="update_attribute" required>
+
+
+          <label for="psw"><b>to what?</b></label>
+          <input type="text" placeholder="to what?" class = "uname" name="update_to" required>
+            
+          <button type="submit" class = "button button1">Update</button>
+        </div>
+        </form>
+        </div>
+    </div>
+
+    <!--COURSE-->
+    <div id="id45" class="modal">
+      
+      <form class="modal-content animate" action="/page4_form.php" method="post">
+        <input type="hidden" name="form_name" value="course"> 
+        <div class="container" style =  "text-align: center;"">
+          <label for="sel_gu"><b>Choose the District you want!</b></label>
+          <select name = "sel_gu" class= "sel_gu">
+            <option name = "jung">Jung</option>
+            <option name = "jongno">Jongno</option>
+            <option name = "seocho">Seocho</option>
+            <option name = "mapo">Mapo</option>
+            <option name = "gangnam">Gangnam</option>
+          </select>
+          <br><br>
+          <label for="sel_day"><b>How many days?</b></label>
+          <select name = "sel_day" class= "sel_day">
+            <option name = "1">1</option>
+            <option name = "2">2</option>
+            <option name = "3">3</option>
+          </select>
+          <br><br>
+          <input type="checkbox" name="cb1" id="tag_insta" value="tag_insta">
+          <label for="tag_insta"> #InstagramSpot</label>
+          <input type="checkbox" name="cb2" id="tag_bts" value="tag_bts">
+          <label for="tag_bts"> #BTS</label>
+          <input type="checkbox" name="cb3" id="tag_nct" value="tag_nct">
+          <label for="tag_nct"> #NCT</label>
+          <input type="checkbox" name="cb4" id="tag_blackpink" value="tag_blackpink">
+          <label for="tag_blackpink"> #BLACKPINK</label>
+          <br>
+          <input type="checkbox" name="cb5" id="tag_kdrama" value="tag_kdrama">
+          <label for="tag_kdrama"> #kdrama</label>
+          <input type="checkbox" name="cb6" id="tag_kbeauty" value="tag_kbeauty">
+          <label for="tag_kbeauty"> #kbeauty</label>
+          <input type="checkbox" name="cb7" id="tag_score" value="tag_score">
+          <label for="tag_score"> #highestscore</label><br><br>
+          <button type = "submit" value = "submit" class = "button button1">Make a Course!</button>
+        </div>
+        </form>
+    </div>
+
+    <div>
+      <button type="button" id="but_insert" onclick="document.getElementById('id42').style.display='block'" class = "button button1">Insert</button>
+      <button type="button" id="but_delete" onclick="document.getElementById('id43').style.display='block'" class = "button button1">Delete</button>
+      <button type="button" id="but_update" onclick="document.getElementById('id44').style.display='block'" class = "button button1">Update</button>
+      <button type="button" id="but_update" onclick="document.getElementById('id45').style.display='block'" class = "button button1">Course</button>
+    </div>
+    <div>
+      <form method = "POST" action = "./page4_form.php">
+        <div class="container">
+        <input type="hidden" name="form_name" value="select"> 
+        <input type="checkbox" name="cb1" id="tag_insta" value="tag_insta">
+        <label for="tag_insta"> #InstagramSpot</label>
+        <input type="checkbox" name="cb2" id="tag_bts" value="tag_bts">
+        <label for="tag_bts"> #BTS</label>
+        <input type="checkbox" name="cb3" id="tag_nct" value="tag_nct">
+        <label for="tag_nct"> #NCT</label>
+        <input type="checkbox" name="cb4" id="tag_blackpink" value="tag_blackpink">
+        <label for="tag_blackpink"> #BLACKPINK</label>
+        <input type="checkbox" name="cb5" id="tag_kdrama" value="tag_kdrama">
+        <label for="tag_kdrama"> #kdrama</label>
+        <input type="checkbox" name="cb6" id="tag_kbeauty" value="tag_kbeauty">
+        <label for="tag_kbeauty"> #kbeauty</label>
+        <input type="checkbox" name="cb7" id="tag_score" value="tag_score">
+        <label for="tag_score"> #highestscore</label>
+        <button type = "submit" value = "submit" class = "button button1">Select</button>
+      </div>
+    </form>
+    </div>
+  <script>
+  function myFunction() {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+      x.className += " responsive";
+    } else {
+      x.className = "topnav";
+    }
+  }
+    var modal2 = document.getElementById('id42');
+    var modal3 = document.getElementById('id43');
+    var modal4 = document.getElementById('id44');
+    var modal5 = document.getElementById('id45');
+
+    window.onclick = function(event) {
+      if(event.target == modal2) {
+          modal2.style.display = "none";
+      }
+      if (event.target == modal3) {
+          modal3.style.display = "none";
+      }
+      if (event.target == modal4) {
+          modal4.style.display = "none";
+      }
+      if (event.target == modal5) {
+          modal5.style.display = "none";
+      }
+    }
+
+  
+</script>
+</body>
+</html>

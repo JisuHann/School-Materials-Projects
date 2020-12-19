@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href = './style.css'>
+  <style>
+    .form-control-range{
+      -webkit-appearance: none;
+      width: 80%;
+      height: 25px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+    .form-control-range:hover{
+      opacity:1;
+    }
+    .form-control-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+
+.form-control-range::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div>
+
+      <!--UPDATE-->
+      <div id="id35" class="modal">
+      
+        <form class="modal-content animate" action="/page3_form.php" method="post">
+          <input type="hidden" name="form_name" value="select"> 
+          <div class="container">
+            
+            <label for="food_range"><b>food range </b></label>
+            <input type="range" class="form-control-range" name="food_range" required>
+  
+            <label for="service_range"><b>service range </b></label>
+            <input type="range" class="form-control-range" name="service_range" required>
+  
+            <label for="value_range"><b>value range </b></label>
+            <input type="range" class="form-control-range" name="value_range" required>
+              <br>
+            <button type="submit" class = "button button1">Select</button>
+          </form>
+          </div>
+      </div>
+    <!--INSERT-->
+    <div id="id32" class="modal">
+    
+      <form class="modal-content animate" action="/page3_form.php" method="post">
+        <input type="hidden" name="form_name" value="insert"> 
+        <div class="container">
+          <label for="uname"><b>District</b></label>
+          <input type="text" placeholder="Enter District" class = "uname" name="which_gu" required>
+            <br>
+          <label for="uname"><b>Name</b></label>
+          <input type="text" placeholder="Enter Name" class = "uname" name="which_name" required>
+
+          <label for="uname"><b>Group</b></label>
+          <input type="text" placeholder="Enter Name" class = "uname" name="which_grp" required>
+
+          <label for="uname"><b>Insta</b></label>
+          <input type="text" placeholder="Enter insta" class = "uname" name="which_insta" required>
+
+          <label for="uname"><b>Food</b></label>
+          <input type="text" placeholder="Enter food" class = "uname" name="which_food" required>
+
+          <label for="uname"><b>Service</b></label>
+          <input type="text" placeholder="Enter service" class = "uname" name="which_service" required>
+
+          <label for="uname"><b>Value</b></label>
+          <input type="text" placeholder="Enter Name" class = "uname" name="which_value" required>
+            
+          <button type="submit" class = "button button1">Insert</button>
+        </form>
+        </div>
+    </div>
+
+    <!--DELETE-->
+    <div id="id33" class="modal">
+      
+      <form class="modal-content animate" action="/page3_form.php" method="post">
+        <div class="container">
+          <input type="hidden" name="form_name" value="delete"> 
+          <label for="uname"><b>Name</b></label>
+          <input type="text" placeholder="Enter Name" class = "uname" name="delete_name" required>
+
+          <button type="submit" class = "button button1">Delete</button>
+        </form>
+        </div>
+    </div>
+
+    <!--UPDATE-->
+    <div id="id34" class="modal">
+      
+      <form class="modal-content animate" action="/page3_form.php" method="post">
+        <input type="hidden" name="form_name" value="update"> 
+        <div class="container">
+          <label for="uname"><b>Name </b></label>
+          <input type="text" placeholder="Enter Name" class = "uname" name="update_name" required>
+
+          <label for="psw"><b>What attribute?</b></label>
+          <input type="text" placeholder="What attribute?" class = "uname" name="update_attribute" required>
+
+
+          <label for="psw"><b>to what?</b></label>
+          <input type="text" placeholder="to what?" class = "uname" name="update_to" required>
+            
+          <button type="submit" class = "button button1">Update</button>
+        </form>
+        </div>
+    </div>
+
+    
+    <div>
+      <button type="button" id="but_update" onclick="document.getElementById('id35').style.display='block'" class = "button button1">Select</button>
+      <button type="button" id="but_insert" onclick="document.getElementById('id32').style.display='block'" class = "button button1">Insert</button>
+      <button type="button" id="but_delete" onclick="document.getElementById('id33').style.display='block'" class = "button button1">Delete</button>
+      <button type="button" id="but_update" onclick="document.getElementById('id34').style.display='block'" class = "button button1">Update</button>
+    </div>
+  <script>
+  function myFunction() {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+      x.className += " responsive";
+    } else {
+      x.className = "topnav";
+    }
+  }
+    var modal2 = document.getElementById('id32');
+    var modal3 = document.getElementById('id33');
+    var modal4 = document.getElementById('id34');
+    var modal5 = document.getElementById('id35');
+
+    window.onclick = function(event) {
+      if(event.target == modal2) {
+          modal2.style.display = "none";
+      }
+      if (event.target == modal3) {
+          modal3.style.display = "none";
+      }
+      if (event.target == modal4) {
+          modal4.style.display = "none";
+      }
+      if (event.target == modal5) {
+          modal5.style.display = "none";
+      }
+    }
+
+    var slider = document.getElementById("insta_range");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+    }
+
+  
+</script>
+</body>
+</html>
