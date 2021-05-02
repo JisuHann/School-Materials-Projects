@@ -1,7 +1,10 @@
 # Image Processing and Deep Learning
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJisuHann%2FSchool-Materials-Projects&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJisuHann%2FSchool-Materials-Projects&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)  
+
 Open SW Project 2020 Spring (by Professor DongBo Min, Ewha Womans University)
-Perform serveral Image Processing Skills Based on OpenCV and C++(Visual Studio Code)
+Perform serveral Image Processing Skills Based on OpenCV and C++(Visual Studio Code)   
+
+<img src ="./IMG_2618.PNG">
 
 ### Contents
 #### 1. [Image Rotation](https://github.com/JisuHann/Image-Processing-and-Deep-Learning/tree/master/1.%20Image%20Rotation)
