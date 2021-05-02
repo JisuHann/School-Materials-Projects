@@ -10,3 +10,4 @@ Class Materials from Ewha Womans University
 - Song Management project: 2020 Spring Database 데이터베이스 Class project
 - Analytical Insight on tourist attractions in Seoul project: 2020 Fall BigDataApplication빅데이터응용 Class
 - Image Processing and Deep Learning: 2020 Spring OpenSWPlatform 오픈SW플랫폼 Class
+- Operating System: 2020 Spring 운영체제 Class
