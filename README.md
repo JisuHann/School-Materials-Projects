@@ -11,3 +11,5 @@ Class Materials from Ewha Womans University
 - Analytical Insight on tourist attractions in Seoul project: 2020 Fall BigDataApplication빅데이터응용 Class
 - Image Processing and Deep Learning: 2020 Spring OpenSWPlatform 오픈SW플랫폼 Class
 - Operating System: 2020 Spring 운영체제 Class
+- Pattern Recognition and Machine Learning 2021 Spring 패턴인식과머신러닝 Class
+- Robotic Recognition and Intelligence Control 2021 Spring 로봇인지및지능제어 Class
