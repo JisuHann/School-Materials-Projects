@@ -1,0 +1,56 @@
+---
+title: "Decision Tree 2"
+output: html_notebook
+---
+
+rpart 패키지에 내장되어 있는 stagec 데이터 사용
+```{r}
+library(rpart) 
+library(party)
+
+data(stagec)	 
+str(stagec)
+```
+1. 결측값 제거 (g2, gleason, eet) 
+: 146개에서 134개로 정리
+```{r}
+stagec1<- subset(stagec, !is.na(g2))
+stagec2<- subset(stagec1, !is.na(gleason))
+stagec3<- subset(stagec2, !is.na(eet))
+str(stagec3)
+```
+
+2. training와 test 데이터 분류 
+```{r}
+set.seed(1234)
+ind <- sample(2, nrow(stagec3), replace=TRUE, prob=c(0.7, 0.3))
+
+ind
+```
+
+2. Training set의 Decision Tree 생성: ctree() "conditional inference tree", Decision Tree를 생성하는 함수
++ Decision tree visualization
+ploidy 맞추기 - 나머지 속성
+https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=tjdudwo93&logNo=221041168345 
+```{r}
+trainData <- stagec3[ind==1, ]
+testData <- stagec3[ind==2, ]
+
+tree <- ctree(ploidy ~ ., data=trainData)
+tree
+plot(tree)
+```
+
+
+3. Test set의 분류 - tree를 통한 test set 확인 
+aneuploid가 오류임.
+```{r}
+testPred = predict(tree, newdata=testData)
+table(testPred, testData$ploidy)
+
+```
+
+4. 예측 결과와 실제 데이터의 정확도 확인
+```{r}
+sum(testPred==testData$ploidy)/length(testPred)*100
+```

@@ -1,0 +1,52 @@
+---
+title: "Decision Tree 1"
+output: html_notebook
+---
+
+
+```{r}
+library(rpart) 
+library(party)
+library("dplyr")
+
+#0. prepare dataset
+aba <- read.csv("/Users/jisu/Desktop/breast-cancer-wisconsin.data")
+data <- aba[, 2:11]
+data$X1.3 <- as.numeric(data$X1.3)
+data
+
+colnames(data)<- c("a", "b", "c", "d","e", "f","g", "h","i", "class")
+str(data)
+
+data<- subset(data, f!="?")
+str(data)
+
+#1. Split training set and test set
+ind <- sample(2, nrow(data), replace=TRUE, prob=c(0.7, 0.3))
+
+trainData <- data[ind==1,]
+testData <- data[ind==2,]
+trainData
+
+#2. Training set의 Decision Tree 생성: ctree() "conditional inference tree", Decision Tree
+
+bio_ctree <- ctree(class ~ b+c+d+f, data=trainData, ctree_control(split="gini"))
+print(bio_ctree)
+
+#2. Decision tree visualization
+plot(bio_ctree)
+plot(bio_ctree, type="simple")
+
+#3.Classificatioin with test set
+testPred <- predict(bio_ctree, newdata = testData)
+
+plot(testPred)
+table(testPred, testData$class)
+
+# 4. Check accuracy
+sum(testPred==testData$class)/length(testPred)*100
+plot(bio_ctree, type="simple")
+
+
+
+```
