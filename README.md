@@ -13,3 +13,5 @@ Class Materials from Ewha Womans University
 - Operating System: 2020 Spring 운영체제 Class
 - Pattern Recognition and Machine Learning 2021 Spring 패턴인식과머신러닝 Class
 - Robotic Recognition and Intelligence Control 2021 Spring 로봇인지및지능제어 Class
+- Bio big data and Data Mining 2021 Winter 바이오빅데이터와데이터마이닝 Class
+- Programming Language 2021 Winter 프로그래밍언어론 Class
